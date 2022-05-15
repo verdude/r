@@ -15,6 +15,8 @@ struct Search: View {
     @Binding var sub: String
     @Binding var view: Page?
     @Binding var status: SearchStatus
+    var loadListings: () -> Void
+    @State private var old: String = ""
     
     var body: some View {
         VStack {
@@ -22,6 +24,9 @@ struct Search: View {
                 .onSubmit {
                     Logger.debug("haha! \(sub)")
                     view = Page.gallery
+                    if old != sub {
+                        loadListings()
+                    }
                     status = .ready
                 }
                 .textInputAutocapitalization(.never)
@@ -32,7 +37,7 @@ struct Search: View {
                 .cornerRadius(8)
                 .padding(.horizontal, 10)
                 .onAppear {
-                    status = .waiting
+                    old = sub
                 }
         }
     }

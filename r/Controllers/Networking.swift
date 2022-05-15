@@ -33,7 +33,6 @@ func requestListing(sub: String) -> [Listing] {
             do {
                 let json = try decoder.decode(Root.self, from: data!)
                 json.data.children.forEach { child in
-                    Logger.debug(String(describing: child.data.preview))
                     if child.data.preview != nil {
                         listings.append(child.data)
                     }

@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 struct ImageView: View {
-    @Binding var view: Page?
     @Binding var videoId: String?
     @State var showVideo: Bool = false
     private var listing_: Listing
@@ -18,7 +17,7 @@ struct ImageView: View {
     private var url: URL
     private var mp4Url: URL?
     
-    init(view: Binding<Page?>, listing: Listing, videoId: Binding<String?>, delete: @escaping (_: String) -> Void) {
+    init(listing: Listing, videoId: Binding<String?>, delete: @escaping (_: String) -> Void) {
         self.id = listing.id
         self.url = URL(string: replaceHTMLEncoding(for: listing.preview!.images[0].source.url))!
         if listing.preview!.reddit_video_preview != nil {
@@ -26,7 +25,6 @@ struct ImageView: View {
         }
         self.listing_ = listing
         self.delete_ = delete
-        self._view = view
         self._videoId = videoId;
     }
     
@@ -58,7 +56,7 @@ struct ImageView: View {
             switch phase {
             case .success(let image):
                 image.resizable().onAppear {
-                    Logger.error("Failed first Load of image: \(listing_.id). First error")
+                    Logger.error("Failed first Load of image: \(listing_.id)")
                 }
             default:
                 EmptyView().onAppear {

@@ -9,17 +9,15 @@ import Foundation
 import SwiftUI
 
 struct SubredditGallery: View {
-    @Binding private var view: Page?
-    @Binding private var sub: String
+    var sub: String
     @Binding private var status: SearchStatus
-    @State private var listings: [Listing]
+    @Binding private var listings: [Listing]
     @State private var videoId: String?
     
-    init(view: Binding<Page?>, sub: Binding<String>, status: Binding<SearchStatus>) {
-        self._view = view
-        self._sub = sub
+    init(sub: String, status: Binding<SearchStatus>, listings: Binding<[Listing]>) {
+        self.sub = sub
         self._status = status
-        self.listings = []
+        self._listings = listings
     }
     
     private func delete(id: String) {
@@ -27,13 +25,8 @@ struct SubredditGallery: View {
     }
     
     var body: some View {
-        switch status {
-        case .ready:
-            List(requestListing(sub: sub)) { listing in
-                ImageView(view: $view, listing: listing, videoId: $videoId, delete: delete(id:))
-            }
-        case .waiting:
-            Text("...go back...")
+        List(listings) { listing in
+            ImageView(listing: listing, videoId: $videoId, delete: delete(id:))
         }
     }
 }
