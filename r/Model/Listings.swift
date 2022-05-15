@@ -22,6 +22,7 @@ struct Child: Codable {
 struct Listing: Codable, Identifiable {
     let preview: Preview?
     let id: String
+    let title: String
     
     func getDisplayImage() -> String? {
         return nil

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ImageView: View {
     @Binding var view: Page?
+    @Binding var videoId: String?
     @State var showVideo: Bool = false
     private var listing_: Listing
     private var delete_: (_: String) -> Void
@@ -17,7 +18,7 @@ struct ImageView: View {
     private var url: URL
     private var mp4Url: URL?
     
-    init(view: Binding<Page?>, listing: Listing, delete: @escaping (_: String) -> Void) {
+    init(view: Binding<Page?>, listing: Listing, videoId: Binding<String?>, delete: @escaping (_: String) -> Void) {
         self.id = listing.id
         self.url = URL(string: replaceHTMLEncoding(for: listing.preview!.images[0].source.url))!
         if listing.preview!.reddit_video_preview != nil {
@@ -26,6 +27,7 @@ struct ImageView: View {
         self.listing_ = listing
         self.delete_ = delete
         self._view = view
+        self._videoId = videoId;
     }
     
     var body: some View {
@@ -41,17 +43,13 @@ struct ImageView: View {
             }
             .scaledToFit()
         }.onTapGesture {
-            if mp4Url != nil {
-                view = Page.video
-            }
+            videoId = listing_.id
         }
         if mp4Url != nil {
             HStack {
-                Text(mp4Url!.absoluteString)
-                NavigationLink(destination: Video(url: mp4Url), isActive: $showVideo) { }
+                Text(listing_.title)
+                NavigationLink(destination: Video(url: mp4Url), tag: listing_.id, selection: $videoId) { }
             }
-        } else {
-            Text("No url!")
         }
     }
     

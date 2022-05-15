@@ -13,6 +13,7 @@ struct SubredditGallery: View {
     @Binding private var sub: String
     @Binding private var status: SearchStatus
     @State private var listings: [Listing]
+    @State private var videoId: String?
     
     init(view: Binding<Page?>, sub: Binding<String>, status: Binding<SearchStatus>) {
         self._view = view
@@ -29,10 +30,10 @@ struct SubredditGallery: View {
         switch status {
         case .ready:
             List(requestListing(sub: sub)) { listing in
-                ImageView(view: $view, listing: listing, delete: delete(id:))
+                ImageView(view: $view, listing: listing, videoId: $videoId, delete: delete(id:))
             }
         case .waiting:
-            EmptyView().onAppear { Logger.debug("gallery waiting. This log should not show :)") }
+            Text("...go back...")
         }
     }
 }
