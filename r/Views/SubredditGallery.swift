@@ -10,13 +10,11 @@ import SwiftUI
 
 struct SubredditGallery: View {
     var sub: String
-    @Binding private var status: SearchStatus
     @Binding private var listings: [Listing]
     @State private var videoId: String?
     
-    init(sub: String, status: Binding<SearchStatus>, listings: Binding<[Listing]>) {
+    init(sub: String, listings: Binding<[Listing]>) {
         self.sub = sub
-        self._status = status
         self._listings = listings
     }
     

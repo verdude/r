@@ -14,7 +14,6 @@ enum SearchStatus {
 struct Search: View {
     @Binding var sub: String
     @Binding var view: Page?
-    @Binding var status: SearchStatus
     var loadListings: () -> Void
     @State private var old: String = ""
     
@@ -27,7 +26,6 @@ struct Search: View {
                     if old != sub {
                         loadListings()
                     }
-                    status = .ready
                 }
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)

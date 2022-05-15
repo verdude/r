@@ -25,8 +25,8 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Search(sub: $sub, view: $view, status: $searchStatus, loadListings: loadListings)
-                NavigationLink(destination: SubredditGallery(sub: sub, status: $searchStatus, listings: $listings), tag: Page.gallery,
+                Search(sub: $sub, view: $view, loadListings: loadListings)
+                NavigationLink(destination: SubredditGallery(sub: sub, listings: $listings), tag: Page.gallery,
                                selection: $view) { }
             }
         }
