@@ -54,4 +54,5 @@ struct ImageMeta: Codable {
 struct RedditVideoPreview: Codable {
     let is_gif: Bool
     let fallback_url: String
+    let hls_url: String
 }

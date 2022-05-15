@@ -15,13 +15,13 @@ struct ImageView: View {
     private var delete_: (_: String) -> Void
     private var id: String
     private var url: URL
-    private var mp4Url: URL?
+    private var hlsUrl: URL?
     
     init(listing: Listing, videoId: Binding<String?>, delete: @escaping (_: String) -> Void) {
         self.id = listing.id
         self.url = URL(string: replaceHTMLEncoding(for: listing.preview!.images[0].source.url))!
         if listing.preview!.reddit_video_preview != nil {
-            self.mp4Url = URL(string: listing.preview!.reddit_video_preview!.fallback_url)
+            self.hlsUrl = URL(string: listing.preview!.reddit_video_preview!.hls_url)
         }
         self.listing_ = listing
         self.delete_ = delete
@@ -43,10 +43,10 @@ struct ImageView: View {
         }.onTapGesture {
             videoId = listing_.id
         }
-        if mp4Url != nil {
+        if hlsUrl != nil {
             HStack {
                 Text(listing_.title)
-                NavigationLink(destination: Video(url: mp4Url), tag: listing_.id, selection: $videoId) { }
+                NavigationLink(destination: Video(url: hlsUrl), tag: listing_.id, selection: $videoId) { }
             }
         }
     }
